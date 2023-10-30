@@ -1,0 +1,13 @@
+Debug/*
+Release/*
+Builds/*
+Temp/*
+
+.vs/*
+.pdb*
+*.TMP
+*.vspx
+*.user
+
+CpuRenderTemplate/x64/*
+x64/*
