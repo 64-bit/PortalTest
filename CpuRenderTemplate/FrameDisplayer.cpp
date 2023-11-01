@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "FrameDisplayer.h"
+#include <Graphics/Texture2D.h>
 
 FrameDisplayer::FrameDisplayer()
 {
@@ -30,10 +32,10 @@ FrameDisplayer::FrameDisplayer()
     shaderProg = CompileShaderProgram();
 }
 
-void FrameDisplayer::DisplayFrame(int width, int height, char* data)
+void FrameDisplayer::DisplayFrame(Texture2D* texture)
 {
     glBindTexture(GL_TEXTURE_2D, tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->Width, texture->Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->Pixels);
 
     glUseProgram(shaderProg);
     glBindVertexArray(vao);

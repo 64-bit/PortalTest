@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <SDL.h>
 #undef main
 
@@ -7,14 +9,18 @@
 
 #include "FrameDisplayer.h"
 #include "GenTexture.h"
-#include "Time.h"
+#include "Timer.h"
+
+#include "stdafx.h"
+#include "Graphics/Texture2D.h"
+
 
 const int width = 1920, height = 1080;
 
 bool running = true;
 
-char* textureA;
-char* textureB;
+Texture2D textureA(width, height);
+Texture2D textureB(width, height);
 
 void HandleSDLEvent(SDL_Event e) 
 {
@@ -24,10 +30,10 @@ void HandleSDLEvent(SDL_Event e)
     }
 }
 
-char* DrawFrame(float time, int frame, int width, int height)
+Texture2D* DrawFrame(float time, int frame, int width, int height)
 {
     bool isOdd = frame % 2;
-    return isOdd ? textureA : textureB;
+    return isOdd ? &textureA : &textureB;
 }
 
 int main(int argc, char** argv)
@@ -42,8 +48,8 @@ int main(int argc, char** argv)
 
     FrameDisplayer displayer = FrameDisplayer();
 
-    textureA = GenerateTexture(width, height, 0);
-    textureB = GenerateTexture(width, height, 1);
+    GenerateTexture(textureA, 0);
+    GenerateTexture(textureB, 1);
 
     Time time = Time(true, 100);
 
@@ -56,12 +62,12 @@ int main(int argc, char** argv)
         }
 
         bool isOdd = time.CurrentFrame % 2;
-        char* texture = isOdd ? textureA : textureB;
+        Texture2D* texture = isOdd ? &textureA : &textureB;
 
         //Rendering
         ///////////////////////////////////////////////
         texture = DrawFrame(time.DeltaTime, time.CurrentFrame, width, height);
-        displayer.DisplayFrame(width, height, texture);
+        displayer.DisplayFrame(texture);
 
         SDL_GL_SwapWindow(window);
         ///////////////////////////////////////////////

@@ -1,6 +1,6 @@
-#include "Time.h"
+#include "stdafx.h"
+#include "Timer.h"
 #include <iostream>
-
 
 Time::Time(bool printFPS, int framesToPrint)
 {

@@ -1,12 +1,14 @@
 #pragma once
 #include <GL/glew.h>
 
+class Texture2D;
+
 class FrameDisplayer
 {
 public:
 	FrameDisplayer();
 
-	void DisplayFrame(int width, int height, char* data);
+	void DisplayFrame(Texture2D* data);
 
 private:
 	int _currentWidth;

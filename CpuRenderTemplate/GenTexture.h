@@ -1,19 +1,19 @@
 #pragma once
+#include "Graphics/Texture2D.h"
 
-
-__inline char* GenerateTexture(int width, int height, int offset) 
+__inline void GenerateTexture(Texture2D& target, int offset)
 {
-	int pixels = width * height;
-	char* data = new char[pixels * 4];
-	int* colorPtr = reinterpret_cast<int*>(data);
+
+	int pixels = target.Width * target.Height;
+	int* colorPtr = reinterpret_cast<int*>(target.Pixels);
 
 	int l = 0xFF0000FF;
 	int r = 0x0000FFFF;
 
 	for (int i = 0; i < pixels; i++)
 	{
-		int x = i % width;
-		int y = i / width;
+		int x = i % target.Width;
+		int y = i / target.Width;
 
 		x /= 32;
 		x += offset;
@@ -24,6 +24,4 @@ __inline char* GenerateTexture(int width, int height, int offset)
 
 		colorPtr[i] = isOdd ? l : r;	
 	}
-
-	return data;
 }
