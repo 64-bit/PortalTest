@@ -3,7 +3,8 @@
 template <typename T>
 T* ReadTypedArrayFromFile(FILE* file, size_t count) {
     T * result = new T[count];
-    fread(result, sizeof(T), count, file);
+    int read = fread(result, sizeof(T), count, file);
+    printf("Read %d elements\n", read);
     return result;
 }
 

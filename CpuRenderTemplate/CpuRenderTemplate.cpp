@@ -13,14 +13,13 @@
 
 #include "stdafx.h"
 #include "Graphics/Texture2D.h"
+#include "RayRenderer/RayRenderer.h"
 
-
-const int width = 1920, height = 1080;
+const int width = 640, height = 480;
 
 bool running = true;
 
 Texture2D textureA(width, height);
-Texture2D textureB(width, height);
 
 void HandleSDLEvent(SDL_Event e) 
 {
@@ -30,17 +29,11 @@ void HandleSDLEvent(SDL_Event e)
     }
 }
 
-Texture2D* DrawFrame(float time, int frame, int width, int height)
-{
-    bool isOdd = frame % 2;
-    return isOdd ? &textureA : &textureB;
-}
-
 int main(int argc, char** argv)
 {  
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width, height, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width * 2, height * 2, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(window);
     glewInit();
 
@@ -48,10 +41,29 @@ int main(int argc, char** argv)
 
     FrameDisplayer displayer = FrameDisplayer();
 
-    GenerateTexture(textureA, 0);
-    GenerateTexture(textureB, 1);
-
     Time time = Time(true, 100);
+
+    RayRenderer rayRenderer;
+    World world;
+
+    FILE* file;
+    auto error = fopen_s(&file, "../Assets/level.map", "rb");
+    world.LoadFromFile(file);
+    fclose(file);
+
+    rayRenderer.BackgroundColor = Color_b(0, 0, 0, 255);
+
+    float pitch = 0.0f;
+    float yaw = 0.0f;
+
+    Camera camera;
+
+    const auto newPitch = quat(vec3(pitch, 0.0f, 0.0f));
+    const auto newYaw = quat(vec3(0.0f, yaw, 0.0f));
+
+    camera.Rotation = newYaw * newPitch;
+    camera.Position = glm::vec3(0.0f, 0.0f, 300.0f);
+    camera.fovY = 1.0f;
 
     while(running)
     {
@@ -61,13 +73,13 @@ int main(int argc, char** argv)
             HandleSDLEvent(e);
         }
 
-        bool isOdd = time.CurrentFrame % 2;
-        Texture2D* texture = isOdd ? &textureA : &textureB;
+        //Logic Update
+        camera.Move(time.DeltaTime);
 
         //Rendering
         ///////////////////////////////////////////////
-        texture = DrawFrame(time.DeltaTime, time.CurrentFrame, width, height);
-        displayer.DisplayFrame(texture);
+        rayRenderer.RenderWorld(textureA, world, camera);
+        displayer.DisplayFrame(&textureA);
 
         SDL_GL_SwapWindow(window);
         ///////////////////////////////////////////////

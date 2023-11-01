@@ -27,13 +27,17 @@ Mesh MapLoader::LoadMeshFromMapFile(FILE* file)
 
     output.Surfaces.clear();
     output.Surfaces.reserve(header.MeshCount);
-    ReadTypedArrayFromFile(file, header.MeshCount, output.Surfaces.data());
 
-    output.Indicies = ReadTypedArrayFromFile<int>(file, header.IndexCount);
+    MeshFacet* facets = new MeshFacet[header.MeshCount];
+    ReadTypedArrayFromFile<MeshFacet>(file, header.MeshCount, facets);
+
+    output.Indicies = ReadTypedArrayFromFile<glm::ivec3>(file, header.IndexCount/3);
     output.Verticies = ReadTypedArrayFromFile<glm::vec3>(file, header.VertexCount);
     output.UVs = ReadTypedArrayFromFile<glm::vec2>(file, header.VertexCount);
 
     output.TriangleCount = header.IndexCount / 3;
+    output.Triangles = nullptr;
 
+    output.Rebuild();
     return output;
 }

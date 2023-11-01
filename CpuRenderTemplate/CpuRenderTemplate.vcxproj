@@ -124,6 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\glew-2.1.0\include;$(SolutionDir)Libs\SingleFileLibs;$(SolutionDir)Libs\glm;$(SolutionDir)Libs\sdl2\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,11 +140,15 @@
     <ClCompile Include="FrameDisplayer.cpp" />
     <ClCompile Include="Graphics\Texture2D.cpp" />
     <ClCompile Include="MapLoader.cpp" />
+    <ClCompile Include="MathTypes.cpp" />
+    <ClCompile Include="RayRenderer\RayRenderer.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="World\Camera.cpp" />
+    <ClCompile Include="World\Mesh.cpp" />
     <ClCompile Include="World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +158,11 @@
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\Texture2D.h" />
     <ClInclude Include="MapLoader.h" />
+    <ClInclude Include="MathTypes.h" />
+    <ClInclude Include="RayRenderer\RayRenderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="World\Camera.h" />
     <ClInclude Include="World\Mesh.h" />
     <ClInclude Include="World\World.h" />
   </ItemGroup>
