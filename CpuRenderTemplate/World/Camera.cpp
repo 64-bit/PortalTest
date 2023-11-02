@@ -20,7 +20,7 @@ Ray Camera::TransformViewRay(const Ray& viewRay)
 
 void Camera::Move(float deltaT)
 {
-	const float CAMERA_SPEED = 50.0f;
+	const float CAMERA_SPEED = 1.0f;
 
     //Translate
 	const Uint8* state = SDL_GetKeyboardState(nullptr);

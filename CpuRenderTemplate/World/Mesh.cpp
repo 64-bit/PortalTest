@@ -43,8 +43,8 @@ RayHit Mesh::RaytraceMesh(Ray& ray, float maxDistance)
 	for (int i = 0; i < TriangleCount; i++)
 	{
 		Triangle triangle = Triangles[i];
-
 		float hitDistance;
+
 		if (triangle.RayTriangleIntersection(ray, hitDistance))
 		{
 			if (hitDistance < maxDistance)

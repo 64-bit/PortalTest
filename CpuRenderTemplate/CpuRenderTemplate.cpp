@@ -15,7 +15,8 @@
 #include "Graphics/Texture2D.h"
 #include "RayRenderer/RayRenderer.h"
 
-const int width = 640, height = 480;
+const int width = 320, height = 240;
+const int SCALE = 4;
 
 bool running = true;
 
@@ -33,7 +34,7 @@ int main(int argc, char** argv)
 {  
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width * 2, height * 2, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width * SCALE, height * SCALE, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(window);
     glewInit();
 
@@ -62,7 +63,7 @@ int main(int argc, char** argv)
     const auto newYaw = quat(vec3(0.0f, yaw, 0.0f));
 
     camera.Rotation = newYaw * newPitch;
-    camera.Position = glm::vec3(0.0f, 0.0f, 300.0f);
+    camera.Position = glm::vec3(0.0f, 0.0f, 4.0f);
     camera.fovY = 1.0f;
 
     while(running)
