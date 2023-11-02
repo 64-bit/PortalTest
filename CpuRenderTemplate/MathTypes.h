@@ -36,6 +36,10 @@ struct Ray
 	Ray();
 
 	Ray(const glm::vec3& origin, const glm::vec3& direction);
+
+	Ray Transform(const mat4& matrix);
+
+	glm::vec3 Along(float time);
 };
 
 

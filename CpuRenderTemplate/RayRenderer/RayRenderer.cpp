@@ -5,6 +5,8 @@
 
 using namespace glm;
 
+#define MAX_DEPTH 10
+
 RayRenderer::RayRenderer()
 {
 	std::random_device rd;
@@ -50,17 +52,48 @@ void RayRenderer::RenderWorld(Texture2D& target, World& world, Camera& camera)
 
 
 			int address = x + y * target.Width;
-			target.Pixels[address] = ShadeRay(world, ray);
+			target.Pixels[address] = ShadeRay(world, ray, 0);
 		}
 	}
 }
 
-Color_b RayRenderer::ShadeRay(World& world, Ray ray)
+Color_b RayRenderer::ShadeRay(World& world, Ray ray, int depth)
 {
 	RayHit hit = world.WorldMesh.RaytraceMesh(ray);
 
+
+
 	if (hit.HitIndex >= 0)
 	{
+		//Check and see if this is a portal
+		int portalIndex = world.PortalIndicies[hit.HitIndex];
+		if (portalIndex >= 0)
+		{
+			if (depth > MAX_DEPTH)
+			{
+				return Color_b(255, 0, 0, 255);
+			}
+
+			if (portalIndex < 0 || portalIndex >= world.WorldMesh.TriangleCount)
+			{
+				printf("Oh shit: %d", portalIndex);
+			}
+
+			//Transform ray by portal
+			mat4 portalTransform = world.Portals[portalIndex];
+			//portalTransform = transpose(portalTransform);
+
+			Ray newRay = ray;
+			newRay.Origin = ray.Along(hit.Time + 0.0001f);
+			newRay.Direction = ray.Direction;
+
+			newRay = newRay.Transform(portalTransform);
+
+			//Recurse
+			return ShadeRay(world, newRay, depth + 1);
+		}
+
+		//Shade hit, no portal was taken
 		return _colors[hit.HitIndex % RR_MAX_COLORS];
 	}
 

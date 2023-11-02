@@ -14,6 +14,7 @@
 #include "stdafx.h"
 #include "Graphics/Texture2D.h"
 #include "RayRenderer/RayRenderer.h"
+#include "MapLoader.h"
 
 const int width = 320, height = 240;
 const int SCALE = 4;
@@ -32,6 +33,9 @@ void HandleSDLEvent(SDL_Event e)
 
 int main(int argc, char** argv)
 {  
+    printf("Sizeof mat4: %d", (int)sizeof(glm::mat4));
+
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width * SCALE, height * SCALE, SDL_WINDOW_OPENGL);
@@ -48,8 +52,9 @@ int main(int argc, char** argv)
     World world;
 
     FILE* file;
+
     auto error = fopen_s(&file, "../Assets/level.map", "rb");
-    world.LoadFromFile(file);
+    MapLoader::LoadWorldFromFile(file, world);
     fclose(file);
 
     rayRenderer.BackgroundColor = Color_b(0, 0, 0, 255);

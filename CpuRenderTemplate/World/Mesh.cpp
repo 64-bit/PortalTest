@@ -55,6 +55,7 @@ RayHit Mesh::RaytraceMesh(Ray& ray, float maxDistance)
 		}
 	}
 
+	result.Time = maxDistance;
 	return result;
 }
 

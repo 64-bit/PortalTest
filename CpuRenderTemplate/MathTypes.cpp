@@ -35,3 +35,18 @@ Ray::Ray(const glm::vec3& origin, const glm::vec3& direction)
     Origin = origin;
     Direction = direction;
 }
+
+Ray Ray::Transform(const mat4& matrix)
+{
+    Ray result;
+
+    result.Origin = (matrix * vec4(Origin, 1.0f));
+    result.Direction = normalize((matrix * vec4(Direction, 0.0f)));
+
+    return result;
+}
+
+glm::vec3 Ray::Along(float time)
+{
+    return Origin + Direction * time;
+}

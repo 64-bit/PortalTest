@@ -13,7 +13,11 @@ public:
 
 	Mesh WorldMesh;
 
+	glm::mat4* Portals;
+	int* PortalIndicies;
+
 private:
+
 
 
 

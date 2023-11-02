@@ -26,6 +26,7 @@ private:
 struct RayHit
 {
 	int HitIndex;
+	float Time;
 };
 
 class Mesh
