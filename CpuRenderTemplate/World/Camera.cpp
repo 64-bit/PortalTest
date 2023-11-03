@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include <SDL.h>
+#include "World.h"
 
 using namespace glm;
 
@@ -16,9 +17,7 @@ Ray Camera::TransformViewRay(const Ray& viewRay)
     return result;
 }
 
-
-
-void Camera::Move(float deltaT)
+void Camera::Move(World& world, float deltaT)
 {
 	const float CAMERA_SPEED = 1.0f;
 

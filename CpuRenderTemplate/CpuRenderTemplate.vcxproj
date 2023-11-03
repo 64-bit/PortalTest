@@ -137,6 +137,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CpuRenderTemplate.cpp" />
+    <ClCompile Include="DataStructures\BoundingBox.cpp" />
+    <ClCompile Include="DataStructures\BVH.cpp" />
     <ClCompile Include="FrameDisplayer.cpp" />
     <ClCompile Include="Graphics\Texture2D.cpp" />
     <ClCompile Include="MapLoader.cpp" />
@@ -147,11 +149,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="World\BVHMesh.cpp" />
+    <ClCompile Include="World\BVHMeshTriangles.cpp" />
     <ClCompile Include="World\Camera.cpp" />
     <ClCompile Include="World\Mesh.cpp" />
     <ClCompile Include="World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataStructures\BHV.h" />
+    <ClInclude Include="DataStructures\BoundingBox.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="FrameDisplayer.h" />
     <ClInclude Include="GenTexture.h" />
@@ -162,6 +168,8 @@
     <ClInclude Include="RayRenderer\RayRenderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="World\BVHMesh.h" />
+    <ClInclude Include="World\BVHMeshTriangles.h" />
     <ClInclude Include="World\Camera.h" />
     <ClInclude Include="World\Mesh.h" />
     <ClInclude Include="World\World.h" />

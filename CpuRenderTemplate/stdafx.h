@@ -11,3 +11,4 @@
 #include "MathTypes.h"
 
 #include "Graphics/Color.h"
+#include "DataStructures/BoundingBox.h"

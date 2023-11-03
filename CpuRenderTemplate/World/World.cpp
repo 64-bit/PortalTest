@@ -4,7 +4,8 @@
 
 void World::LoadFromFile(FILE* file)
 {
-	WorldMesh = MapLoader::LoadMeshFromMapFile(file);
+	MapLoader::LoadWorldFromFile(file, *this);
+	WorldBVHMesh = BVHMesh(WorldMesh);
 }
 
 void World::Reset()

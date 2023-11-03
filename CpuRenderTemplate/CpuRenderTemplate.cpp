@@ -5,6 +5,8 @@
 
 #include <GL/glew.h>
 #include <iostream>
+
+#define NOMINMAX 
 #include <Windows.h>
 
 #include "FrameDisplayer.h"
@@ -33,9 +35,6 @@ void HandleSDLEvent(SDL_Event e)
 
 int main(int argc, char** argv)
 {  
-    printf("Sizeof mat4: %d", (int)sizeof(glm::mat4));
-
-
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width * SCALE, height * SCALE, SDL_WINDOW_OPENGL);
@@ -54,7 +53,7 @@ int main(int argc, char** argv)
     FILE* file;
 
     auto error = fopen_s(&file, "../Assets/level.map", "rb");
-    MapLoader::LoadWorldFromFile(file, world);
+    world.LoadFromFile(file);
     fclose(file);
 
     rayRenderer.BackgroundColor = Color_b(0, 0, 0, 255);
@@ -80,7 +79,7 @@ int main(int argc, char** argv)
         }
 
         //Logic Update
-        camera.Move(time.DeltaTime);
+        camera.Move(world, time.DeltaTime);
 
         //Rendering
         ///////////////////////////////////////////////

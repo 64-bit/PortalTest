@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
+class World;
+
 class Camera
 {
 public:
@@ -11,7 +13,7 @@ public:
 
 	Ray TransformViewRay(const Ray& viewRay);
 
-	void Move(float deltaT);
+	void Move(World& world, float deltaT);
 private:
 	int _lastMouseX;
 	int _lastMouseY;

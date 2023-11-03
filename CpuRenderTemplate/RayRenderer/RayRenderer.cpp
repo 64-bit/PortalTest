@@ -59,7 +59,8 @@ void RayRenderer::RenderWorld(Texture2D& target, World& world, Camera& camera)
 
 Color_b RayRenderer::ShadeRay(World& world, Ray ray, int depth)
 {
-	RayHit hit = world.WorldMesh.RaytraceMesh(ray);
+	//RayHit hit = world.WorldMesh.RaytraceMesh(ray);
+	RayHit hit = world.WorldBVHMesh.RaytraceMesh(ray);
 
 
 
