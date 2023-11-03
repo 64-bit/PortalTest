@@ -20,4 +20,6 @@ private:
 
 	float _pitch = 0.0f;
 	float _yaw = 0.0f;
+
+	void MoveViaRay(World& world, Ray ray, float remainingDistance, int depth = 0);
 };

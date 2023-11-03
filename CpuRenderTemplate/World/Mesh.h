@@ -27,6 +27,10 @@ struct RayHit
 {
 	int HitIndex;
 	float Time;
+
+	inline bool DidHit() {
+		return HitIndex >= 0;
+	}
 };
 
 class Mesh

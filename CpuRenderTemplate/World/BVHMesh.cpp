@@ -54,7 +54,7 @@ RayHit BVHMesh::RaytraceMesh(Ray& ray, float maxDistance)
 
 	float entry = 0.0f;
 	float exit = FLT_MAX;
-	float hitDistanceOut = FLT_MAX;
+	float hitDistanceOut = maxDistance;
 
 	bool didHit = AttemptRayIntersection_BVH(ray, _bvh, entry, exit, hitDistanceOut, hit);
 
