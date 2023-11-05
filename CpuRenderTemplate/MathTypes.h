@@ -24,6 +24,11 @@ struct alignas(16) Triangle
 	static Triangle MakeTriangle(glm::ivec3* indicies, glm::vec3* verticies, int index);
 
 	inline bool RayTriangleIntersection(const Ray& localRay, float& outHitDistance);
+
+	static glm::vec3 ComputeByCords(const glm::vec3& vertA,
+		const glm::vec3& vertB,
+		const glm::vec3& vertC,
+		const glm::vec3& hitPoint);
 };
 
 
@@ -41,6 +46,23 @@ struct Ray
 
 	glm::vec3 Along(float time);
 };
+
+struct FastRay
+{
+	glm::vec3 Origin;
+	glm::vec3 Direction;
+	glm::vec3 DirectionReciprocal;
+
+	FastRay();
+
+	FastRay(const glm::vec3& origin, const glm::vec3& direction);
+	FastRay(const Ray& source);
+
+	FastRay Transform(const mat4& matrix);
+
+	glm::vec3 Along(float time);
+};
+
 
 
 inline bool Triangle::RayTriangleIntersection(const Ray& localRay, float& outHitDistance)
@@ -90,4 +112,21 @@ inline bool Triangle::RayTriangleIntersection(const Ray& localRay, float& outHit
 	{
 		return false;
 	}
+}
+
+inline glm::vec3 Triangle::ComputeByCords(const glm::vec3& vertA, const glm::vec3& vertB, const glm::vec3& vertC, const glm::vec3& hitPoint)
+{
+	glm::vec3 v0 = vertB - vertA, v1 = vertC - vertA, v2 = hitPoint - vertA;
+	float d00 = glm::dot(v0, v0);
+	float d01 = glm::dot(v0, v1);
+	float d11 = glm::dot(v1, v1);
+	float d20 = glm::dot(v2, v0);
+	float d21 = glm::dot(v2, v1);
+	float denom = d00 * d11 - d01 * d01;
+
+	float v = (d11 * d20 - d01 * d21) / denom;
+	float w = (d00 * d21 - d01 * d20) / denom;
+	float u = 1.0f - v - w;
+
+	return glm::vec3(u, v, w);
 }

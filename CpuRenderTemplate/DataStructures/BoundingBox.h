@@ -13,6 +13,7 @@ public:
 	BoundingBox();
 
 	bool DoesRayIntersect(const Ray& ray, float& outTNear, float& outTFar);
+	bool DoesRayIntersect(const FastRay& ray, float& outTNear, float& outTFar);
 
 	//void EnlargeByPoints(const std::vector<MeshVertex>& verticies);
 	void EnlargeByPoint(const glm::vec3& point);
@@ -22,6 +23,8 @@ public:
 	void EnlargeByBounds(const BoundingBox& otherBounds);
 
 	glm::vec3 GetCenter() const;
+
+	glm::vec3 GetSize() const;
 
 private:
 };

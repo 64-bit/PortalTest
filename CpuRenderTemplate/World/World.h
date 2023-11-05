@@ -4,6 +4,8 @@
 #include "Mesh.h"
 #include "BVHMesh.h"
 
+class Texture2D;
+
 class World
 {
 public:
@@ -18,8 +20,10 @@ public:
 	glm::mat4* Portals;
 	int* PortalIndicies;
 
-private:
 
+	Texture2D* Texture;
+
+private:
 
 
 

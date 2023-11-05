@@ -140,6 +140,7 @@
     <ClCompile Include="DataStructures\BoundingBox.cpp" />
     <ClCompile Include="DataStructures\BVH.cpp" />
     <ClCompile Include="FrameDisplayer.cpp" />
+    <ClCompile Include="Graphics\StbImage.cpp" />
     <ClCompile Include="Graphics\Texture2D.cpp" />
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="MathTypes.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="DataStructures\BHV.h" />
     <ClInclude Include="DataStructures\BoundingBox.h" />
+    <ClInclude Include="DataStructures\BVH2.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="FrameDisplayer.h" />
     <ClInclude Include="GenTexture.h" />

@@ -2,6 +2,7 @@
 #include "RayRenderer.h"
 #include "GenTexture.h"
 #include <random>
+#include "World/Mesh.h"
 
 using namespace glm;
 
@@ -63,7 +64,6 @@ Color_b RayRenderer::ShadeRay(World& world, Ray ray, int depth)
 	RayHit hit = world.WorldBVHMesh.RaytraceMesh(ray);
 
 
-
 	if (hit.HitIndex >= 0)
 	{
 		//Check and see if this is a portal
@@ -95,9 +95,64 @@ Color_b RayRenderer::ShadeRay(World& world, Ray ray, int depth)
 		}
 
 		//Shade hit, no portal was taken
-		return _colors[hit.HitIndex % RR_MAX_COLORS];
+		return ShadeFragmment(world, ray, hit);
+
+
 	}
 
 	return BackgroundColor;
+}
+
+Color_b RayRenderer::ShadeFragmment(World& world, Ray ray, RayHit hit)
+{
+	vec3 verts[3];
+	vec2 uvs[3];
+
+	//int remappedHit = world.WorldBVHMesh.GetTriangle(hit.HitIndex).Index;
+
+	ivec3 indices = world.WorldMesh.Indicies[hit.HitIndex];
+
+	for (int i = 0; i < 3; i++)
+	{
+		verts[i] = world.WorldMesh.Verticies[indices[i]];
+		uvs[i] = world.WorldMesh.UVs[indices[i]];
+	}
+
+	vec3 hitPos = ray.Along(hit.Time);
+	vec3 byCords = Triangle::ComputeByCords(verts[0], verts[1], verts[2], hitPos);
+
+	vec2 finalUV = vec2(0.0f);
+
+	for (int i = 0; i < 3; i++)
+	{
+		finalUV += uvs[i] * byCords[i];
+	}
+
+	finalUV *= 0.25f;
+	finalUV = abs(finalUV);
+	//Color_b color = _colors[hit.HitIndex % RR_MAX_COLORS];;
+	//color.r = finalUV.x * 255.0f;
+	//color.g = finalUV.y * 255.0f;
+
+	int surfaceIndex = world.WorldMesh.TriangleToSurfaceIndex[hit.HitIndex];
+	if (surfaceIndex >= 0)
+	{
+		const MeshSurface& surface = world.WorldMesh.Surfaces[surfaceIndex];
+		if (surface.Texture == nullptr)
+		{
+			return _colors[hit.HitIndex % 255];
+		}
+		else
+		{
+			return surface.Texture->Sample(finalUV);
+		}
+	}
+	else
+	{
+		return Color_b(0, 255, 32, 255);
+	}
+
+
+	//return color;
 }
 

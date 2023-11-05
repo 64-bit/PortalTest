@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Mesh.h"
 
+using namespace std;
+
 Mesh::Mesh()
 {
 	IndexCount = 0;
@@ -18,6 +20,7 @@ Mesh::Mesh()
 void Mesh::Rebuild()
 {
 	RebuildTriangles();
+	RebuildToSurface();
 }
 
 void Mesh::RebuildTriangles()
@@ -32,6 +35,20 @@ void Mesh::RebuildTriangles()
 	for (int i = 0; i < TriangleCount; i++)
 	{
 		Triangles[i] = Triangle::MakeTriangle(Indicies, Verticies, i);
+	}
+}
+
+void Mesh::RebuildToSurface()
+{
+	TriangleToSurfaceIndex = vector<int>(TriangleCount, -1);
+	for (int i = 0; i < Surfaces.size(); i++)
+	{
+		MeshSurface currentSurface = Surfaces[i];
+		int end = currentSurface.IndexStart/3 + currentSurface.IndexCount/3;
+		for (int j = currentSurface.IndexStart/3; j < end; j++)
+		{
+			TriangleToSurfaceIndex[j] = i;
+		}
 	}
 }
 

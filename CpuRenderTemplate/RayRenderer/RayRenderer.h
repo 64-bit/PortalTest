@@ -23,5 +23,6 @@ private:
 
 
 	Color_b ShadeRay(World& world, Ray ray, int depth);
+	Color_b ShadeFragmment(World& world, Ray ray, RayHit hit);
 	Color_b _colors[RR_MAX_COLORS];
 };

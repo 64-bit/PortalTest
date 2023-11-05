@@ -50,6 +50,45 @@ bool BoundingBox::DoesRayIntersect(const Ray& ray, float& outTNear, float& outTF
 	return true;
 }
 
+bool BoundingBox::DoesRayIntersect(const FastRay& ray, float& outTNear, float& outTFar)
+{
+	float tNear = -FLT_MAX;
+	float tFar = FLT_MAX;
+
+
+	for (int i = 0; i < 3; i++)
+	{
+		float t1 = (Min[i] - ray.Origin[i]) * ray.DirectionReciprocal[i];
+		float t2 = (Max[i] - ray.Origin[i]) * ray.DirectionReciprocal[i];
+
+		if (t1 > t2)
+		{
+			std::swap(t1, t2);
+		}
+
+		if (t1 > tNear)
+		{
+			tNear = t1;
+		}
+
+		if (t2 < tFar)
+		{
+			tFar = t2;
+		}
+	}
+
+	if (tNear > tFar
+		|| tFar < 0.0f)
+	{
+		return false;
+	}
+
+	outTNear = tNear;
+	outTFar = tFar;
+
+	return true;
+}
+
 //void BoundingBox::EnlargeByPoints(const std::vector<MeshVertex>& verticies)
 //{
 //	//Pick any vertex, and set that as the inital min and max
@@ -105,4 +144,9 @@ void BoundingBox::EnlargeByBounds(const BoundingBox& otherBounds)
 vec3 BoundingBox::GetCenter() const
 {
 	return (Min + Max) * 0.5f;
+}
+
+glm::vec3 BoundingBox::GetSize() const
+{
+	return Max - Min;
 }

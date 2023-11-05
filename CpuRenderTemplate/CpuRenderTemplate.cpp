@@ -19,7 +19,7 @@
 #include "MapLoader.h"
 
 const int width = 320, height = 240;
-const int SCALE = 4;
+const int SCALE = 5;
 
 bool running = true;
 
@@ -55,6 +55,11 @@ int main(int argc, char** argv)
     auto error = fopen_s(&file, "../Assets/level.map", "rb");
     world.LoadFromFile(file);
     fclose(file);
+
+    error = fopen_s(&file, "../Assets/block01a.jpg", "rb");
+    world.Texture = new Texture2D(file);
+    fclose(file);
+
 
     rayRenderer.BackgroundColor = Color_b(0, 0, 0, 255);
 
