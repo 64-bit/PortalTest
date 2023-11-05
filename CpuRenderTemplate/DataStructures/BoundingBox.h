@@ -26,5 +26,7 @@ public:
 
 	glm::vec3 GetSize() const;
 
+	float SurfaceAreaApprox() const;
+
 private:
 };

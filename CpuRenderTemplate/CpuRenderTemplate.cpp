@@ -18,8 +18,8 @@
 #include "RayRenderer/RayRenderer.h"
 #include "MapLoader.h"
 
-const int width = 320, height = 240;
-const int SCALE = 5;
+const int width = 640, height = 480;
+const int SCALE = 2;
 
 bool running = true;
 

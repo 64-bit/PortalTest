@@ -150,3 +150,10 @@ glm::vec3 BoundingBox::GetSize() const
 {
 	return Max - Min;
 }
+
+float BoundingBox::SurfaceAreaApprox() const
+{
+	vec3 size = GetSize();
+
+	return size.x * size.y + size.y * size.z + size.z * size.x;
+}
