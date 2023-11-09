@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\glew-2.1.0\include;$(SolutionDir)Libs\SingleFileLibs;$(SolutionDir)Libs\glm;$(SolutionDir)Libs\sdl2\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -120,7 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\glew-2.1.0\include;$(SolutionDir)Libs\SingleFileLibs;$(SolutionDir)Libs\glm;$(SolutionDir)Libs\sdl2\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -139,9 +139,18 @@
     <ClCompile Include="CpuRenderTemplate.cpp" />
     <ClCompile Include="DataStructures\BoundingBox.cpp" />
     <ClCompile Include="DataStructures\BVH.cpp" />
+    <ClCompile Include="DebugUI\DebugUI.cpp" />
+    <ClCompile Include="DebugUI\RayProfiler.cpp" />
     <ClCompile Include="FrameDisplayer.cpp" />
     <ClCompile Include="Graphics\StbImage.cpp" />
     <ClCompile Include="Graphics\Texture2D.cpp" />
+    <ClCompile Include="Imgui\imgui.cpp" />
+    <ClCompile Include="Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Imgui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="Imgui\imgui_tables.cpp" />
+    <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="MathTypes.cpp" />
     <ClCompile Include="RayRenderer\RayRenderer.cpp" />
@@ -160,11 +169,21 @@
     <ClInclude Include="DataStructures\BHV.h" />
     <ClInclude Include="DataStructures\BoundingBox.h" />
     <ClInclude Include="DataStructures\BVH2.h" />
+    <ClInclude Include="DebugUI\DebugUI.h" />
+    <ClInclude Include="DebugUI\RayProfiler.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="FrameDisplayer.h" />
     <ClInclude Include="GenTexture.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\Texture2D.h" />
+    <ClInclude Include="Imgui\imconfig.h" />
+    <ClInclude Include="Imgui\imgui.h" />
+    <ClInclude Include="Imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Imgui\imgui_impl_sdl2.h" />
+    <ClInclude Include="Imgui\imgui_internal.h" />
+    <ClInclude Include="Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Imgui\imstb_textedit.h" />
+    <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="MathTypes.h" />
     <ClInclude Include="RayRenderer\RayRenderer.h" />
@@ -175,6 +194,9 @@
     <ClInclude Include="World\Camera.h" />
     <ClInclude Include="World\Mesh.h" />
     <ClInclude Include="World\World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Imgui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

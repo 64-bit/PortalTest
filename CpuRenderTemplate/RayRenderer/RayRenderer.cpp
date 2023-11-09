@@ -3,10 +3,11 @@
 #include "GenTexture.h"
 #include <random>
 #include "World/Mesh.h"
+#include "DebugUI/RayProfiler.h"
 
 using namespace glm;
 
-#define MAX_DEPTH 10
+#define MAX_DEPTH 30
 
 RayRenderer::RayRenderer()
 {
@@ -60,9 +61,10 @@ void RayRenderer::RenderWorld(Texture2D& target, World& world, Camera& camera)
 
 Color_b RayRenderer::ShadeRay(World& world, Ray ray, int depth)
 {
+	RayProfiler.AddRays(1);
+
 	//RayHit hit = world.WorldMesh.RaytraceMesh(ray);
 	RayHit hit = world.WorldBVHMesh.RaytraceMesh(ray);
-
 
 	if (hit.HitIndex >= 0)
 	{

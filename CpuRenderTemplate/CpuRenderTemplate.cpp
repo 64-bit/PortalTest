@@ -17,9 +17,15 @@
 #include "Graphics/Texture2D.h"
 #include "RayRenderer/RayRenderer.h"
 #include "MapLoader.h"
+#include "DebugUI/DebugUI.h"
 
-const int width = 640, height = 480;
-const int SCALE = 2;
+
+const int OTHER_SCALE = 1;
+
+const int width = 320 * OTHER_SCALE, height = 240 * OTHER_SCALE;
+const int SCALE = 4 / OTHER_SCALE;
+
+
 
 bool running = true;
 
@@ -37,7 +43,7 @@ int main(int argc, char** argv)
 {  
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 400, width * SCALE, height * SCALE, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 200, width * SCALE, height * SCALE, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
     SDL_GLContext context = SDL_GL_CreateContext(window);
     glewInit();
 
@@ -75,21 +81,33 @@ int main(int argc, char** argv)
     camera.Position = glm::vec3(0.0f, 0.0f, 4.0f);
     camera.fovY = 1.0f;
 
+    DebugUI debugUI = DebugUI(window, context, time);
+
+
     while(running)
     {
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
-            HandleSDLEvent(e);
+            debugUI.ProcessEvents(e);
+
+            //if (!ImGui::GetIO().WantCaptureMouse && !ImGui::GetIO().WantCaptureKeyboard)
+            {
+                HandleSDLEvent(e);
+            }
         }
 
         //Logic Update
-        camera.Move(world, time.DeltaTime);
+        //if (!ImGui::GetIO().WantCaptureMouse && !ImGui::GetIO().WantCaptureKeyboard)
+        {
+            camera.Move(world, time.DeltaTime);
+        }
 
         //Rendering
         ///////////////////////////////////////////////
         rayRenderer.RenderWorld(textureA, world, camera);
         displayer.DisplayFrame(&textureA);
+        debugUI.RenderUI();
 
         SDL_GL_SwapWindow(window);
         ///////////////////////////////////////////////
