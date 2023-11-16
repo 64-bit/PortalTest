@@ -3,9 +3,10 @@
 #include "Timer.h"
 #include "RayProfiler.h"
 #include "SDL.h"
+#include"Profiler/ProfilerUI.h"
 
-DebugUI::DebugUI(SDL_Window* window, SDL_GLContext openglContext, const Time& time)
-	: _time(time)
+DebugUI::DebugUI(SDL_Window* window, SDL_GLContext openglContext)
+	
 {
 	_window = window;
 
@@ -39,9 +40,14 @@ void DebugUI::RenderUI()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	//ImGui::ShowDemoWindow(); // Show demo window! :)
+	ImGui::ShowDemoWindow(); // Show demo window! :)
 
 	DrawTitleBar();
+
+	if(_profilerWindowOpen)
+	{
+		ProfilerUI::RenderUIWindow(&_profilerWindowOpen);
+	}
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -105,14 +111,21 @@ void DebugUI::DrawTitleBar()
 			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 			ImGui::EndMenu();
 		}
-	
+		if (ImGui::BeginMenu("Tools"))
+		{
+			if (ImGui::MenuItem("Profiler", "CTRL+SHIFT+P"))
+			{
+				_profilerWindowOpen = true;
+			}
+			ImGui::EndMenu();
+		}
 
 
 		char text[128];
-		float time = _time.DeltaTime * 1000.0f;
+		float time = Time.DeltaTime * 1000.0f;
 
 		float rays = RayProfiler.GetRayCount();
-		float raysPerSecond = rays / _time.DeltaTime;
+		float raysPerSecond = rays / Time.DeltaTime;
 		float megaRays = raysPerSecond / 1000000.0f;
 
 		sprintf_s(text, 128, "--- PORTAL BASTARD 9000 ---  mS: %f -- MEGA RAYS/S: %f", time, megaRays);

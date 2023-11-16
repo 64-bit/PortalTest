@@ -125,6 +125,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libs\glew-2.1.0\include;$(SolutionDir)Libs\SingleFileLibs;$(SolutionDir)Libs\glm;$(SolutionDir)Libs\sdl2\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <Optimization>MaxSpeed</Optimization>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions512</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +138,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CpuRenderTemplate.cpp" />
+    <ClCompile Include="AVXTest.cpp" />
+    <ClCompile Include="DebugUI\Profiler\Profiler.cpp" />
+    <ClCompile Include="DebugUI\Profiler\ProfilerUI.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataStructures\BoundingBox.cpp" />
     <ClCompile Include="DataStructures\BVH.cpp" />
     <ClCompile Include="DebugUI\DebugUI.cpp" />
@@ -159,6 +164,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="World\BVHMesh.cpp" />
     <ClCompile Include="World\BVHMeshTriangles.cpp" />
     <ClCompile Include="World\Camera.cpp" />
@@ -170,6 +176,8 @@
     <ClInclude Include="DataStructures\BoundingBox.h" />
     <ClInclude Include="DataStructures\BVH2.h" />
     <ClInclude Include="DebugUI\DebugUI.h" />
+    <ClInclude Include="DebugUI\Profiler\Profiler.h" />
+    <ClInclude Include="DebugUI\Profiler\ProfilerUI.h" />
     <ClInclude Include="DebugUI\RayProfiler.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="FrameDisplayer.h" />

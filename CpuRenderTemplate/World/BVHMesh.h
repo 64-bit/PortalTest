@@ -37,7 +37,10 @@ private:
 	RayHit GetSurfaceForHit(const Ray& ray, float hitDistance, const BVHTriangle& hitTriangle);
 
 
-	bool AttemptRayIntersection_BVH_2(const FastRay& ray, BVH2::BVHNode<BVHTriangle>* currentNode,
+	void AttemptRayIntersection_BVH_2(const FastRay& ray, BVH2::BVHNode<BVHTriangle>* currentNode,
+		float& outIntersectionDistance, RayHit& outHitDetails);
+
+	void AttemptRayIntersection_BVH_2_While (const FastRay& ray, BVH2::BVHNode<BVHTriangle>* currentNode,
 		float& outIntersectionDistance, RayHit& outHitDetails);
 
 	RayHit GetSurfaceForHit_2(const Ray& ray, float hitDistance, const BVHTriangle& hitTriangle);

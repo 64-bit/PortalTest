@@ -11,7 +11,7 @@ class Time;
 class DebugUI
 {
 public:
-	DebugUI(SDL_Window* window, SDL_GLContext openglContext, const Time& time);
+	DebugUI(SDL_Window* window, SDL_GLContext openglContext);
 
 	void ProcessEvents(SDL_Event& event);
 
@@ -21,6 +21,7 @@ public:
 
 	~DebugUI();
 private:
-	const Time& _time;
 	SDL_Window* _window;
+
+	bool _profilerWindowOpen = false;
 };

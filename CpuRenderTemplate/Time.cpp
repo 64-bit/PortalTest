@@ -2,7 +2,9 @@
 #include "Timer.h"
 #include <iostream>
 
-Time::Time(bool printFPS, int framesToPrint)
+EnigneTime Time = EnigneTime(true, 100);
+
+EnigneTime::EnigneTime(bool printFPS, int framesToPrint)
 {
 	Print = printFPS;
 	FramesToPrint = framesToPrint;
@@ -18,7 +20,7 @@ Time::Time(bool printFPS, int framesToPrint)
 	DeltaTime = 0.0f;
 }
 
-void Time::OnFrame()
+void EnigneTime::OnFrame()
 {
 	CurrentFrame++;
 
@@ -36,10 +38,18 @@ void Time::OnFrame()
 	}
 }
 
-float Time::TimeSinceStartup()
+float EnigneTime::TimeSinceStartup()
 {
 	LARGE_INTEGER currentTime;
 	QueryPerformanceCounter(&currentTime);
 
-	return static_cast<double>(_currentFrameTime.QuadPart - _startupTime.QuadPart) / _frequency.QuadPart;
+	return static_cast<double>(currentTime.QuadPart - _startupTime.QuadPart) / _frequency.QuadPart;
+}
+
+double EnigneTime::TimeSinceStartupDouble()
+{
+	LARGE_INTEGER currentTime;
+	QueryPerformanceCounter(&currentTime);
+
+	return static_cast<double>(currentTime.QuadPart - _startupTime.QuadPart) / _frequency.QuadPart;
 }

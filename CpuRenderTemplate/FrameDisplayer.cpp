@@ -34,11 +34,8 @@ FrameDisplayer::FrameDisplayer()
 
 void FrameDisplayer::DisplayFrame(Texture2D* texture)
 {
-    glBindTexture(GL_TEXTURE_2D, tex);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->Width, texture->Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->Pixels);
 
-    glUseProgram(shaderProg);
-    glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -49,6 +46,7 @@ GLuint FrameDisplayer::CompileShaderProgram()
         layout(location = 0) in vec2 aPos;
         layout(location = 1) in vec2 aTexCoord;
         out vec2 TexCoord;
+        
         void main() {
             gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);
             TexCoord = aTexCoord;
@@ -80,6 +78,8 @@ GLuint FrameDisplayer::CompileShaderProgram()
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    glUseProgram(shaderProgram);
 
     return shaderProgram;
 }

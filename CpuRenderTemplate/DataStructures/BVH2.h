@@ -234,30 +234,6 @@ namespace BVH2
 
 		printf("Best Split: Axis:%d -- Point:%f -- Index:%d \n", bestSplit.Axis, bestSplit.Poinnt, bestSplitIndex);
 
-		//For now, just split on the largest one
-		//order data by best split axis
-
-		//auto startItr = elements.begin() + currentNode.ElementStartIndex;
-		//auto endItr = startItr + currentNode.ElementCount;
-
-		//int splitAxis;
-		//glm::vec3 size = currentNode.Bounds.GetSize();
-		//if (size.x > size.y && size.x > size.z)
-		//{
-		//	std::sort(startItr, endItr, CompareNodesByX<T>);
-		//	splitAxis = 0;
-		//}
-		//else if (size.y > size.z)
-		//{
-		//	std::sort(startItr, endItr, CompareNodesByY<T>);
-		//	splitAxis = 1;
-		//}
-		//else
-		//{
-		//	std::sort(startItr, endItr, CompareNodesByZ<T>);
-		//	splitAxis = 2;
-		//}
-
 		//Select an index to split upon
 		int splitCount = bestSplitIndex - currentNode.ElementStartIndex;
 
@@ -299,9 +275,7 @@ namespace BVH2
 	template<typename T>
 	inline void BVHNode<T>::ConstructNewBVH(std::vector<T>& elements, std::vector<BVHNode<T>>& nodeContainer, BuildBVHArgs bvhArgs)
 	{
-		//Construct initial root node & construction vector
-		//std::vector<BVHNode<T>> constructionVector;
-
+		//Construct initial root node
 
 		nodeContainer.push_back(BVHNode<T>());
 		BVHNode<T>& rootNode = nodeContainer.back();
@@ -310,17 +284,6 @@ namespace BVH2
 
 		//Build BVH recursively
 		ConstructBVH(elements, nodeContainer, 0, bvhArgs);
-
-
-		//write root node to final place in construction array'
-			//Or don't because we can use references
-
-		//nodeContainer.reserve(constructionVector.size());
-		////convert construction array to final
-		//for (auto& node : constructionVector)
-		//{
-		//	nodeContainer.push_back(node);
-		//}
 	}
 	template<typename T>
 	inline bool BVHNode<T>::HasChildren() const

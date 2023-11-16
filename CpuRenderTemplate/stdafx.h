@@ -7,6 +7,8 @@
 #include <glm.hpp>
 #include <ext/quaternion_float.hpp>
 #include <vector>
+#include <stack>
+#include <memory>
 
 #include "MathTypes.h"
 

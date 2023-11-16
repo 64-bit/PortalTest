@@ -18,14 +18,16 @@
 #include "RayRenderer/RayRenderer.h"
 #include "MapLoader.h"
 #include "DebugUI/DebugUI.h"
+#include "DebugUI/Profiler/Profiler.h"
+
+//TODO:Delete this line
+void AVXTest();
 
 
 const int OTHER_SCALE = 1;
 
 const int width = 320 * OTHER_SCALE, height = 240 * OTHER_SCALE;
 const int SCALE = 4 / OTHER_SCALE;
-
-
 
 bool running = true;
 
@@ -41,6 +43,9 @@ void HandleSDLEvent(SDL_Event e)
 
 int main(int argc, char** argv)
 {  
+    //AVXTest();
+    //return 1;
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window* window = SDL_CreateWindow("OpenGL", 400, 200, width * SCALE, height * SCALE, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
@@ -50,8 +55,6 @@ int main(int argc, char** argv)
     SDL_GL_SetSwapInterval(0);
 
     FrameDisplayer displayer = FrameDisplayer();
-
-    Time time = Time(true, 100);
 
     RayRenderer rayRenderer;
     World world;
@@ -81,11 +84,13 @@ int main(int argc, char** argv)
     camera.Position = glm::vec3(0.0f, 0.0f, 4.0f);
     camera.fovY = 1.0f;
 
-    DebugUI debugUI = DebugUI(window, context, time);
+    DebugUI debugUI = DebugUI(window, context);
 
 
     while(running)
     {
+        FrameProfiler.StartFrame();
+        FrameProfiler.PushSection("Process Input");
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
@@ -96,23 +101,38 @@ int main(int argc, char** argv)
                 HandleSDLEvent(e);
             }
         }
+        FrameProfiler.PopSection();
+
 
         //Logic Update
+        FrameProfiler.PushSection("Process Object Logic");
         //if (!ImGui::GetIO().WantCaptureMouse && !ImGui::GetIO().WantCaptureKeyboard)
         {
-            camera.Move(world, time.DeltaTime);
+            camera.Move(world, Time.DeltaTime);
         }
+        FrameProfiler.PopSection();
 
         //Rendering
         ///////////////////////////////////////////////
+        FrameProfiler.PushSection("Render World");
         rayRenderer.RenderWorld(textureA, world, camera);
-        displayer.DisplayFrame(&textureA);
-        debugUI.RenderUI();
+        FrameProfiler.PopSection();
 
+        FrameProfiler.PushSection("Display Frame");
+        displayer.DisplayFrame(&textureA);
+        FrameProfiler.PopSection();
+
+        FrameProfiler.PushSection("Render UI");
+        debugUI.RenderUI();
+        FrameProfiler.PopSection();
+
+        FrameProfiler.PushSection("Swap Frame");
         SDL_GL_SwapWindow(window);
         ///////////////////////////////////////////////
+        Time.OnFrame();
+        FrameProfiler.PopSection();
 
-        time.OnFrame();
+        FrameProfiler.EndFrame();
     }
 
     SDL_DestroyWindow(window);
